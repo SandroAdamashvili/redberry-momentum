@@ -5,9 +5,11 @@ import MainPage from "./components/main_page/MainPage";
 
 function App() {
   return (
-    <>
-      <MainPage />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+      </Routes>
+    </Router>
   );
 }
 
