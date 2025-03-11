@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+:root {
+    padding: 0 120px;
+    font-family: 'FiraGO', sans-serif;
+}
