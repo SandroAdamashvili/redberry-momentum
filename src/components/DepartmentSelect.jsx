@@ -7,9 +7,6 @@ export default function DepartmentSelect({ depValue, handleChange, type }) {
   const [depsOpen, setDepsOpen] = useState(false);
   const depsData = useGetDeps();
 
-  console.log(depsData);
-  console.log(depsData[depValue - 1]);
-
   return (
     <div className="w-full">
       <p>დეპარტამენტი*</p>

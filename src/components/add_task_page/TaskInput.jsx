@@ -1,14 +1,32 @@
-export default function TaskInput({ type }) {
+import { useRef } from "react";
+
+export default function TaskInput({
+  type,
+  title,
+  inputName,
+  onChange,
+  inputValue,
+}) {
+  const inputRef = useRef();
+
   return (
     <div className="w-[550px] flex flex-col">
-      <p>სათაური*</p>
+      <p>{title}</p>
       {type === "text" ? (
         <input
-          type={type}
+          ref={inputRef}
+          type="text"
           className="w-[550px] h-[45px] border border-[#CED4DA] bg-white rounded-[6px] p-[10px] focus:outline-none mb-2"
+          onChange={() => onChange(inputName, inputRef.current.value)}
+          value={inputValue}
         />
       ) : (
-        <textarea className="w-[550px] h-[133px] border border-[#CED4DA] bg-white rounded-[6px] p-[10px] focus:outline-none mb-2"></textarea>
+        <textarea
+          ref={inputRef}
+          className="w-[550px] h-[133px] border border-[#CED4DA] bg-white rounded-[6px] p-[10px] focus:outline-none mb-2"
+          onChange={() => onChange(inputName, inputRef.current.value)}
+          value={inputValue}
+        ></textarea>
       )}
       <p className="text-xs font-light text-[#6C757D]">მინიმუმ 2 სიმბოლო</p>
       <p className="text-xs font-light text-[#6C757D]">მაქსიმუმ 255 სიმბოლო</p>
