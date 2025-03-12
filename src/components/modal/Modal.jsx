@@ -4,16 +4,19 @@ import ModalInput from "./ModalInput";
 import DepartmentSelect from "../DepartmentSelect";
 import ModalImage from "./ModalImage";
 import Button from "../Button";
+import useCreateEmployee from "../../hooks/useCreateEmployee";
 
 export default function Modal({ open, onModalClose }) {
   const dialogRef = useRef();
   const [modalInfo, setModalInfo] = useState({
     name: "",
     surname: "",
-    image: null,
-    department: "",
+    avatar: null,
+    department_id: "",
   });
   const [imageSrc, setImageSrc] = useState(null);
+  const { createEmployee } = useCreateEmployee();
+  const imageRef = useRef();
 
   useEffect(() => {
     if (open) {
@@ -35,8 +38,8 @@ export default function Modal({ open, onModalClose }) {
     setModalInfo({
       name: "",
       surname: "",
-      image: null,
-      department: "",
+      avatar: null,
+      department_id: "",
     });
     setImageSrc(null);
   }
@@ -45,9 +48,36 @@ export default function Modal({ open, onModalClose }) {
     const file = event.target.files[0];
     if (file && file.size < 600000 && file.type.startsWith("image")) {
       console.log(file);
-      handleModalChange("image", file);
+      handleModalChange("avatar", file);
       const imageUrl = URL.createObjectURL(file);
       setImageSrc(imageUrl);
+    }
+  }
+
+  function handleClick() {
+    imageSrc === null && imageRef.current.click();
+  }
+
+  function handleRemove() {
+    setImageSrc(null);
+    imageRef.current.value = "";
+    handleModalChange("avatar", null);
+  }
+
+  async function handleCreateEmployee() {
+    const fd = new FormData();
+    for (const key in modalInfo) {
+      fd.append(key.toString(), modalInfo[key]);
+      console.log(key);
+    }
+    console.log(fd.get("avatar"));
+
+    try {
+      const response = await createEmployee(fd);
+      handleModalClose();
+      console.log("Success", response);
+    } catch (error) {
+      console.error("Failed to create employee: ", error);
     }
   }
 
@@ -81,20 +111,23 @@ export default function Modal({ open, onModalClose }) {
           />
         </div>
         <ModalImage
-          handleChange={handleModalChange}
+          ref={imageRef}
           imageSrc={imageSrc}
-          setImageSrc={setImageSrc}
           handleImgChange={handleImgChange}
+          handleClick={handleClick}
+          handleRemove={handleRemove}
         />
         <DepartmentSelect
-          depValue={modalInfo.department}
+          depValue={modalInfo.department_id}
           handleChange={handleModalChange}
         />
         <div className="w-full flex flex-row justify-end gap-[22px]">
           <Button dark={false} onClick={handleModalClose}>
             გაუქმება
           </Button>
-          <Button dark={true}>დაამატე თანამშრომელი</Button>
+          <Button dark={true} onClick={handleCreateEmployee}>
+            დაამატე თანამშრომელი
+          </Button>
         </div>
       </div>
     </dialog>

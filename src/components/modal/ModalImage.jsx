@@ -1,32 +1,16 @@
-import { useRef, useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 import ImgUpload from "../../assets/img-upload.svg";
 import RemoveIcon from "../../assets/remove-icon.svg";
 
-export default function ModalImage({
-  handleChange,
-  imageSrc,
-  setImageSrc,
-  handleImgChange,
-}) {
-  const imageRef = useRef();
-
-  console.log(imageSrc);
-
-  function handleClick() {
-    imageSrc === null && imageRef.current.click();
-  }
-
-  function handleRemove() {
-    setImageSrc(null);
-    imageRef.current.value = "";
-    handleChange("image", null);
-  }
-
+const ModalImage = forwardRef(function ModalImage(
+  { imageSrc, handleImgChange, handleClick, handleRemove },
+  ref
+) {
   return (
     <div className="w-full">
       <p>ავატარი*</p>
       <input
-        ref={imageRef}
+        ref={ref}
         type="file"
         className="hidden"
         onChange={(e) => handleImgChange(e)}
@@ -55,4 +39,6 @@ export default function ModalImage({
       </button>
     </div>
   );
-}
+});
+
+export default ModalImage;
