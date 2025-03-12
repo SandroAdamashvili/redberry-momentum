@@ -1,27 +1,32 @@
 import Header from "../Header";
-import ArrDown from "../../assets/arrow-down.svg";
+import { useState } from "react";
+import Filter from "./Filter";
+import Modal from "../modal/Modal";
 
 export default function MainPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <>
-      <Header />
+      <Modal open={modalOpen} onModalClose={() => setModalOpen(false)} />
+      <Header onModalClick={() => setModalOpen(true)} />
       <h1 className="text-[34px] font-semibold mb-[52px]">
         დავალებების გვერდი
       </h1>
-      <div className="flex flex-row justify-between items-center border border-[#DEE2E6] px-[18px] py-[10px] rounded-[10px] gap-[45px] w-[688px] font-normal text-base relative">
-        <div className="flex flex-row gap-2">
-          <p>დეპარტამენტი</p>
-          <img src={ArrDown} alt="arrow down icon" />
+      <Filter />
+      <div className="grid grid-cols-4 gap-[52px] text-center">
+        <div className="flex flex-col gap-[30px] py-[15px] text-white bg-[#F7BC30] rounded-[10px]">
+          <h3>დასაწყები</h3>
         </div>
-        <div className="flex flex-row gap-2">
-          <p>დეპარტამენტი</p>
-          <img src={ArrDown} alt="arrow down icon" />
+        <div className="flex flex-col gap-[30px] py-[15px] text-white bg-[#FB5607] rounded-[10px]">
+          <h3>პროგრესში</h3>
         </div>
-        <div className="flex flex-row gap-2">
-          <p>დეპარტამენტი</p>
-          <img src={ArrDown} alt="arrow down icon" />
+        <div className="flex flex-col gap-[30px] py-[15px] text-white bg-[#FF006E] rounded-[10px]">
+          <h3>მზად ტესტირებისთვის</h3>
         </div>
-        <div className="absolute w-full h-[274px] border-[0.5px] border-[#8338EC] bg-white rounded-[10px] right-0 top-14"></div>
+        <div className="flex flex-col gap-[30px] py-[15px] text-white bg-[#3A86FF] rounded-[10px]">
+          <h3>დასრულებული</h3>
+        </div>
       </div>
     </>
   );
