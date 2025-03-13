@@ -25,13 +25,13 @@ export default function SmallSelect({
           <p className="flex flex-row gap-[6px] items-center">
             {selectValue && (
               <>
-                <img src={data[selectValue - 1].icon} alt="icon" />
-                {data[selectValue - 1].name}
+                <img src={data[selectValue - 1]?.icon} alt="icon" />
+                {data[selectValue - 1]?.name}
               </>
             )}
           </p>
         ) : (
-          <p>{selectValue && data[selectValue - 1].name}</p>
+          <p>{selectValue && data[selectValue - 1]?.name}</p>
         )}
         <img src={selectOpen ? ArrUp : ArrDown} alt="arrow" />
         {selectOpen && (

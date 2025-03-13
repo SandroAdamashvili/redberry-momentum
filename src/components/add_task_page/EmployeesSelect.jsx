@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArrDown from "../../assets/small-arrow-down.svg";
 import ArrUp from "../../assets/arrow-up.svg";
 import useGetEmployees from "../../hooks/useGetEmployees";
@@ -8,12 +8,21 @@ export default function EmployeesSelect({
   setModalOpen,
   handleChange,
   empValue,
+  dep_id,
 }) {
   const [selectOpen, setSelectOpen] = useState(false);
-  const empsData = useGetEmployees();
-  const selectedEmployee = empsData.filter(
+  const empsData = useGetEmployees() || [];
+
+  const filteredData = empsData?.filter(
+    (employee) => employee.department?.id === dep_id
+  );
+  const selectedEmployee = empsData?.find(
     (employee) => employee.id === empValue
-  )[0];
+  );
+
+  // console.log(empsData[1]?.name);
+  console.log(empsData);
+  console.log(selectedEmployee);
 
   return (
     <div className="w-full">
@@ -23,7 +32,7 @@ export default function EmployeesSelect({
         onClick={() => setSelectOpen(!selectOpen)}
       >
         <p className="flex flex-row gap-[6px] items-center text-sm">
-          {empValue && (
+          {selectedEmployee && (
             <>
               <img
                 src={selectedEmployee.avatar}
@@ -45,7 +54,7 @@ export default function EmployeesSelect({
               <img src={AddIcon} alt="add employee" />
               დაამატე თანამშრომელი
             </li>
-            {empsData.map((employee) => {
+            {filteredData.map((employee) => {
               return (
                 <li
                   key={employee.id}

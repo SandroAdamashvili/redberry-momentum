@@ -8,37 +8,81 @@ import SmallSelect from "./SmallSelect";
 import TaskDate from "./TaskDate";
 import Button from "../Button";
 import useCreateTask from "../../hooks/useCreateTask";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateTaskPage() {
   const { createTask } = useCreateTask();
   const [modalOpen, setModalOpen] = useState(false);
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const defaultDate = tomorrow.toISOString().split("T")[0];
   const [taskInfo, setTaskInfo] = useState({
-    name: "",
-    description: "",
-    due_date: "",
-    status_id: "",
-    employee_id: "",
-    priority_id: "",
-    department_id: "",
+    name: localStorage.getItem("name") || "",
+    description: localStorage.getItem("description") || "",
+    due_date: localStorage.getItem("due_date") || defaultDate,
+    status_id: localStorage.getItem("status_id") || "",
+    employee_id: localStorage.getItem("employee_id") || "",
+    priority_id: localStorage.getItem("priority_id") || "",
+    department_id: localStorage.getItem("department_id") || "",
   });
+  const [taskError, setTaskError] = useState({
+    name: false,
+    description: false,
+    due_date: false,
+    status_id: false,
+    employee_id: false,
+    priority_id: false,
+    department_id: false,
+  });
+  let navigate = useNavigate();
 
   function handleTaskChange(key, value) {
     setTaskInfo((prevValues) => ({
       ...prevValues,
       [key]: value,
     }));
+    localStorage.setItem(key, value);
+  }
+
+  function handleValidation(key, value) {
+    setTaskError((prevValues) => ({
+      ...prevValues,
+      [key]: value,
+    }));
   }
 
   async function handleCreateTask() {
+    const taskObject = {};
+
+    for (const key in taskInfo) {
+      if (key !== "department_id") {
+        taskObject[key] = taskInfo[key];
+      }
+    }
+
+    console.log(taskObject);
+
     try {
       const response = await createTask(taskInfo);
       console.log("Task created successfully: ", response);
+      setTaskInfo({
+        name: "",
+        description: "",
+        due_date: "",
+        status_id: "",
+        employee_id: "",
+        priority_id: "",
+        department_id: "",
+      });
+      navigate("/");
     } catch (error) {
       console.error("Failed to create task: ", error);
     }
   }
 
   console.log(taskInfo);
+  console.log(taskInfo.department_id);
+  console.log(taskError);
 
   return (
     <>
@@ -55,6 +99,7 @@ export default function CreateTaskPage() {
             inputName="name"
             onChange={handleTaskChange}
             inputValue={taskInfo.name}
+            handleValidation={handleValidation}
           />
           <DepartmentSelect
             type="taskDeps"
@@ -69,12 +114,14 @@ export default function CreateTaskPage() {
             inputName="description"
             onChange={handleTaskChange}
             inputValue={taskInfo.description}
+            handleValidation={handleValidation}
           />
           {taskInfo.department_id && (
             <EmployeesSelect
               setModalOpen={setModalOpen}
               handleChange={handleTaskChange}
               empValue={taskInfo.employee_id}
+              dep_id={taskInfo.department_id}
             />
           )}
         </div>
@@ -96,10 +143,13 @@ export default function CreateTaskPage() {
             />
           </div>
           <div>
-            <TaskDate handleChange={handleTaskChange} />
+            <TaskDate
+              handleChange={handleTaskChange}
+              dateValue={taskInfo.due_date}
+            />
           </div>
         </div>
-        <div className="w-[1261px] flex flex-row justify-end">
+        <div className="w-[1261px] flex flex-row justify-end mt-[90px]">
           <Button dark={true} onClick={handleCreateTask}>
             დავალების შექმნა
           </Button>

@@ -7,6 +7,8 @@ export default function DepartmentSelect({ depValue, handleChange, type }) {
   const [depsOpen, setDepsOpen] = useState(false);
   const depsData = useGetDeps();
 
+  // console.log(depsData);
+
   return (
     <div className="w-full">
       <p>დეპარტამენტი*</p>
@@ -16,7 +18,7 @@ export default function DepartmentSelect({ depValue, handleChange, type }) {
         } px-[14px] flex flex-row items-center justify-between border border-[#CED4DA] bg-white rounded-md relative hover:cursor-pointer`}
         onClick={() => setDepsOpen(!depsOpen)}
       >
-        <p className="text-sm">{depValue && depsData[depValue - 1].name}</p>
+        <p className="text-sm">{depValue && depsData[depValue - 1]?.name}</p>
         <img src={depsOpen ? ArrUp : ArrDown} alt="arrow" />
         {depsOpen && (
           <ol
