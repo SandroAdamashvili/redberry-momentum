@@ -81,7 +81,7 @@ export default function Modal({ open, onModalClose }) {
     }
   }
 
-  console.log(modalInfo);
+  // console.log(modalInfo);
 
   return (
     <dialog
