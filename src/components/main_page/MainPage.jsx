@@ -4,6 +4,7 @@ import Filter from "./Filter";
 import Modal from "../modal/Modal";
 import useGetTasks from "../../hooks/useGetTasks";
 import TaskCard from "./TaskCard";
+import XIcon from "../../assets/x.svg";
 
 export default function MainPage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -21,16 +22,13 @@ export default function MainPage() {
     ...data.filter((item) => item.status.name === "დასრულებული"),
   ];
   const [filterOpen, setFilterOpen] = useState({});
-  const [employeeSelected, setEmployeeSelected] = useState();
+  const [employeeSelected, setEmployeeSelected] = useState({});
   const [prioritiesSelected, setPrioritiesSelected] = useState([]);
   const [depsSelected, setDepsSelected] = useState([]);
 
   function handleFilterBox(name) {
     setFilterOpen({ [name]: !filterOpen[name] });
   }
-
-  console.log(data);
-  console.log(finished);
 
   return (
     <>
@@ -39,7 +37,7 @@ export default function MainPage() {
       <h1 className="text-[34px] font-semibold mb-[52px]">
         დავალებების გვერდი
       </h1>
-      <div className="flex flex-row justify-between items-center border border-[#DEE2E6] px-[18px] py-[10px] rounded-[10px] gap-[45px] w-[688px] font-normal text-base relative mb-[79px]">
+      <div className="flex flex-row justify-between items-center border border-[#DEE2E6] px-[18px] py-[10px] rounded-[10px] gap-[45px] w-[688px] font-normal text-base relative">
         <Filter
           filterOpen={filterOpen["დეპარტამენტი"]}
           filterName="დეპარტამენტი"
@@ -62,30 +60,117 @@ export default function MainPage() {
           setValue={setEmployeeSelected}
         />
       </div>
+      <ol className="flex flex-row gap-[8px] items-center my-[25px] flex-wrap text-[#343A40] font-light">
+        {depsSelected.map((dep) => (
+          <li
+            className="flex flex-row gap-1 items-center py-1.5 px-2.5 border border-[#CED4DA] rounded-[43px]"
+            key={dep.id}
+          >
+            <p>{dep.name}</p>
+            <img
+              src={XIcon}
+              alt="x icon"
+              className="hover:cursor-pointer"
+              onClick={() =>
+                setDepsSelected((prevValues) =>
+                  prevValues.filter((obj) => obj.id !== dep.id)
+                )
+              }
+            />
+          </li>
+        ))}
+        {prioritiesSelected.map((priority) => (
+          <li
+            className="flex flex-row gap-1 items-center py-1.5 px-2.5 border border-[#CED4DA] rounded-[43px]"
+            key={priority.id}
+          >
+            <p>{priority.name}</p>
+            <img
+              src={XIcon}
+              alt="x icon"
+              className="hover:cursor-pointer"
+              onClick={() =>
+                setPrioritiesSelected((prevValues) =>
+                  prevValues.filter((obj) => obj.id !== priority.id)
+                )
+              }
+            />
+          </li>
+        ))}
+        {employeeSelected.id && (
+          <li className="flex flex-row gap-1 items-center py-1.5 px-2.5 border border-[#CED4DA] rounded-[43px]">
+            <p>{employeeSelected.name + " " + employeeSelected.surname}</p>
+            <img
+              src={XIcon}
+              alt="x icon"
+              className="hover:cursor-pointer"
+              onClick={() => setEmployeeSelected({})}
+            />
+          </li>
+        )}
+        {(depsSelected.length > 0 ||
+          prioritiesSelected.length > 0 ||
+          employeeSelected.id) && (
+          <li
+            className="py-1.5 px-2.5 hover:cursor-pointer"
+            onClick={() => {
+              setDepsSelected([]);
+              setPrioritiesSelected([]);
+              setEmployeeSelected({});
+            }}
+          >
+            გასუფთავება
+          </li>
+        )}
+      </ol>
       <div className="grid grid-cols-4 gap-[52px] text-center">
         <div className="flex flex-col gap-[30px]">
           <h3 className="py-[15px] text-white bg-[#F7BC30] rounded-[10px]">
             დასაწყები
           </h3>
-          <TaskCard data={notStarted} color="border-[#F7BC30]" />
+          <TaskCard
+            data={notStarted}
+            color="border-[#F7BC30]"
+            depFilter={depsSelected.map((dep) => dep.id)}
+            priorityFilter={prioritiesSelected.map((priority) => priority.id)}
+            employeeFilter={employeeSelected.id}
+          />
         </div>
         <div className="flex flex-col gap-[30px]">
           <h3 className="py-[15px] text-white bg-[#FB5607] rounded-[10px]">
             პროგრესში
           </h3>
-          <TaskCard data={inProgress} color="border-[#FB5607]" />
+          <TaskCard
+            data={inProgress}
+            color="border-[#FB5607]"
+            depFilter={depsSelected.map((dep) => dep.id)}
+            priorityFilter={prioritiesSelected.map((priority) => priority.id)}
+            employeeFilter={employeeSelected.id}
+          />
         </div>
         <div className="flex flex-col gap-[30px]">
           <h3 className="py-[15px] text-white bg-[#FF006E] rounded-[10px]">
             მზად ტესტირებისთვის
           </h3>
-          <TaskCard data={readyForTest} color="border-[#FF006E]" />
+          <TaskCard
+            data={readyForTest}
+            color="border-[#FF006E]"
+            depFilter={depsSelected.map((dep) => dep.id)}
+            priorityFilter={prioritiesSelected.map((priority) => priority.id)}
+            employeeFilter={employeeSelected.id}
+          />
         </div>
         <div className="flex flex-col gap-[30px]">
           <h3 className="py-[15px] text-white bg-[#3A86FF] rounded-[10px]">
             დასრულებული
           </h3>
-          <TaskCard data={finished} color="border-[#3A86FF]" />
+          <TaskCard
+            data={finished}
+            color="border-[#3A86FF]"
+            depFilter={depsSelected.map((dep) => dep.id)}
+            priorityFilter={prioritiesSelected.map((priority) => priority.id)}
+            employeeFilter={employeeSelected.id}
+          />
         </div>
       </div>
     </>

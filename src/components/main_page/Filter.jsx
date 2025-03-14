@@ -20,8 +20,6 @@ export default function Filter({
       ? useGetPriority()
       : useGetEmployees();
 
-  console.log(data);
-
   return (
     <>
       <div
@@ -48,17 +46,19 @@ export default function Filter({
               filterName === "დეპარტამენტი" ? (
                 <li
                   key={item.id}
-                  className="flex flex-row gap-[15px] items-center"
+                  className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
                   onClick={() =>
                     setValue((prevValues) => {
-                      return value.includes(item.id)
-                        ? prevValues.filter((id) => id !== item.id)
-                        : [...prevValues, item.id];
+                      return value.find((obj) => obj.id === item.id)
+                        ? prevValues.filter((obj) => obj.id !== item.id)
+                        : [...prevValues, item];
                     })
                   }
                 >
                   <img
-                    src={value.includes(item.id) ? Checked : Check}
+                    src={
+                      value.find((obj) => obj.id === item.id) ? Checked : Check
+                    }
                     alt="check"
                   />
                   <p>{item.name}</p>
@@ -66,17 +66,19 @@ export default function Filter({
               ) : filterName === "პრიორიტეტი" ? (
                 <li
                   key={item.id}
-                  className="flex flex-row gap-[15px] items-center"
+                  className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
                   onClick={() =>
                     setValue((prevValues) => {
-                      return value.includes(item.id)
-                        ? prevValues.filter((id) => id !== item.id)
-                        : [...prevValues, item.id];
+                      return value.find((obj) => obj.id === item.id)
+                        ? prevValues.filter((obj) => obj.id !== item.id)
+                        : [...prevValues, item];
                     })
                   }
                 >
                   <img
-                    src={value.includes(item.id) ? Checked : Check}
+                    src={
+                      value.find((obj) => obj.id === item.id) ? Checked : Check
+                    }
                     alt="check"
                   />
                   <p>{item.name}</p>
@@ -85,9 +87,14 @@ export default function Filter({
                 <li
                   key={item.id}
                   className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
-                  onClick={() => setValue(item.id)}
+                  onClick={() => {
+                    return value.id === item.id ? setValue({}) : setValue(item);
+                  }}
                 >
-                  <img src={value === item.id ? Checked : Check} alt="check" />
+                  <img
+                    src={value.id === item.id ? Checked : Check}
+                    alt="check"
+                  />
                   <div className="flex flex-row gap-[10px] items-center">
                     <img
                       src={item.avatar}
