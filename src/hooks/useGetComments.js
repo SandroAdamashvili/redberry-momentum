@@ -9,7 +9,7 @@ export default function useGetSingleTask(taskId) {
 
         async function fetchData() {
             try {
-                const response = await axios.get(`https://momentum.redberryinternship.ge/api/tasks/${taskId}`,
+                const response = await axios.get(`https://momentum.redberryinternship.ge/api/tasks/${taskId}/comments`,
                     {headers: {Accept: 'application/json', Authorization: "Bearer 9e69f803-b6e5-4eea-9055-26904f2ed4a1"}})
                 setData(response.data)
             } catch (error) {
@@ -20,5 +20,5 @@ export default function useGetSingleTask(taskId) {
         fetchData()
     }, [taskId])
 
-    return (data)
+    return [data, setData]
 }
