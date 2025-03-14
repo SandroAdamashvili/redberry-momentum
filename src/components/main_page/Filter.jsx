@@ -1,33 +1,106 @@
-import { useState } from "react";
 import ArrDown from "../../assets/arrow-down.svg";
+import useGetDeps from "../../hooks/useGetDeps";
+import useGetPriority from "../../hooks/useGetPriority";
+import PurpleArr from "../../assets/purple-arrow-down.svg";
+import Check from "../../assets/check.svg";
+import Checked from "../../assets/checked.svg";
+import useGetEmployees from "../../hooks/useGetEmployees";
 
-export default function Filter() {
-  const [filterOpen, setFilterOpen] = useState(false);
+export default function Filter({
+  filterOpen,
+  filterName,
+  handleFilterBox,
+  value,
+  setValue,
+}) {
+  const data =
+    filterName === "დეპარტამენტი"
+      ? useGetDeps()
+      : filterName === "პრიორიტეტი"
+      ? useGetPriority()
+      : useGetEmployees();
 
-  function handleFilterBox() {
-    setFilterOpen(!filterOpen);
-  }
+  console.log(data);
 
   return (
     <>
-      <div className="flex flex-row justify-between items-center border border-[#DEE2E6] px-[18px] py-[10px] rounded-[10px] gap-[45px] w-[688px] font-normal text-base relative mb-[79px]">
-        <div className="flex flex-row gap-2" onClick={handleFilterBox}>
-          <p>დეპარტამენტი</p>
-          <img src={ArrDown} alt="arrow down icon" />
-        </div>
-        <div className="flex flex-row gap-2" onClick={handleFilterBox}>
-          <p>პრიორიტეტი</p>
-          <img src={ArrDown} alt="arrow down icon" />
-        </div>
-        <div className="flex flex-row gap-2" onClick={handleFilterBox}>
-          <p>თანამშრომელი</p>
-          <img src={ArrDown} alt="arrow down icon" />
-        </div>
-        <div
-          className={`absolute w-full h-[274px] border-[0.5px] border-[#8338EC] bg-white rounded-[10px] right-0 top-14 ${
-            !filterOpen && "hidden"
-          }`}
-        ></div>
+      <div
+        className="flex flex-row gap-2 hover:cursor-pointer"
+        onClick={() => handleFilterBox(filterName)}
+      >
+        <p
+          style={{
+            color: filterOpen ? "#8338EC" : "#0D0F10",
+          }}
+        >
+          {filterName}
+        </p>
+        <img src={filterOpen ? PurpleArr : ArrDown} alt="arrow down icon" />
+      </div>
+      <div
+        className={`absolute w-full h-[274px] border-[0.5px] pt-[40px] px-[30px] border-[#8338EC] bg-white rounded-[10px] right-0 top-14 ${
+          !filterOpen && "hidden"
+        }`}
+      >
+        {filterOpen && (
+          <ol className="flex flex-col gap-[22px] text-base h-[170px] overflow-y-auto">
+            {data.map((item) =>
+              filterName === "დეპარტამენტი" ? (
+                <li
+                  key={item.id}
+                  className="flex flex-row gap-[15px] items-center"
+                  onClick={() =>
+                    setValue((prevValues) => {
+                      return value.includes(item.id)
+                        ? prevValues.filter((id) => id !== item.id)
+                        : [...prevValues, item.id];
+                    })
+                  }
+                >
+                  <img
+                    src={value.includes(item.id) ? Checked : Check}
+                    alt="check"
+                  />
+                  <p>{item.name}</p>
+                </li>
+              ) : filterName === "პრიორიტეტი" ? (
+                <li
+                  key={item.id}
+                  className="flex flex-row gap-[15px] items-center"
+                  onClick={() =>
+                    setValue((prevValues) => {
+                      return value.includes(item.id)
+                        ? prevValues.filter((id) => id !== item.id)
+                        : [...prevValues, item.id];
+                    })
+                  }
+                >
+                  <img
+                    src={value.includes(item.id) ? Checked : Check}
+                    alt="check"
+                  />
+                  <p>{item.name}</p>
+                </li>
+              ) : (
+                <li
+                  key={item.id}
+                  className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
+                  onClick={() => setValue(item.id)}
+                >
+                  <img src={value === item.id ? Checked : Check} alt="check" />
+                  <div className="flex flex-row gap-[10px] items-center">
+                    <img
+                      src={item.avatar}
+                      alt="avatar"
+                      className="w-[28px] h-[28px] rounded-[100px]"
+                    />
+                    <p>{item.name + " " + item.surname}</p>
+                  </div>
+                </li>
+              )
+            )}
+          </ol>
+        )}
       </div>
     </>
   );

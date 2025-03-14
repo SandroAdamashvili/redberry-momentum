@@ -3,6 +3,8 @@ export default function CommentTextField({
   setComment,
   createComment,
   parent_id = null,
+  replyOpen = false,
+  setReplyOpen,
 }) {
   return (
     <div className="relative w-full bg-white border-[0.3px] border-[#ADB5BD] px-[20px] pt-[18px] pb-[70px] rounded-[10px]">
@@ -14,8 +16,12 @@ export default function CommentTextField({
       ></textarea>
       <div className="absolute right-2 bottom-5 px-[20px]">
         <button
-          className="text-base text-white px-[20px] py-2 bg-[#8338EC] rounded-[20px]"
-          onClick={() => createComment({ text: comment, parent_id: parent_id })}
+          className="text-base text-white px-[20px] py-2 bg-[#8338EC] rounded-[20px] hover:cursor-pointer hover:bg-[#B588F4]"
+          onClick={() => {
+            comment.trim().length > 0 &&
+              createComment({ text: comment, parent_id: parent_id });
+            replyOpen && setReplyOpen(false);
+          }}
         >
           დააკომენტარე
         </button>
