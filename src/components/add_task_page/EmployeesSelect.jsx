@@ -9,6 +9,8 @@ export default function EmployeesSelect({
   handleChange,
   empValue,
   dep_id,
+  validation,
+  handleValidation,
 }) {
   const [selectOpen, setSelectOpen] = useState(false);
   const empsData = useGetEmployees() || [];
@@ -21,18 +23,24 @@ export default function EmployeesSelect({
   );
 
   // console.log(empsData[1]?.name);
-  console.log(empsData);
+  // console.log(empsData);
   console.log(selectedEmployee);
+  console.log(dep_id);
 
   return (
     <div className="w-full">
       <p>პასუხისმგებელი თანამშრომელი*</p>
       <div
-        className="w-[550px] h-[45px] px-[14px] flex flex-row items-center justify-between border border-[#CED4DA] bg-white rounded-md relative hover:cursor-pointer"
+        className={`w-[550px] h-[45px] px-[14px] flex flex-row items-center justify-between border ${
+          validation ? "border-[#FA4D4D]" : "border-[#CED4DA]"
+        } bg-white rounded-md relative hover:cursor-pointer`}
         onClick={() => setSelectOpen(!selectOpen)}
+        style={{
+          borderColor: validation ? "border-[#FA4D4D]" : "border-[#CED4DA]",
+        }}
       >
         <p className="flex flex-row gap-[6px] items-center text-sm">
-          {selectedEmployee && (
+          {selectedEmployee && dep_id === selectedEmployee.department.id && (
             <>
               <img
                 src={selectedEmployee.avatar}
@@ -59,7 +67,10 @@ export default function EmployeesSelect({
                 <li
                   key={employee.id}
                   className="flex flex-row gap-[6px] items-center font-light text-sm py-3 px-3.5 hover:cursor-pointer"
-                  onClick={() => handleChange("employee_id", employee.id)}
+                  onClick={() => {
+                    handleChange("employee_id", employee.id);
+                    handleValidation("employee_id", false);
+                  }}
                 >
                   <img
                     className="w-[28px] h-[28px] rounded-[100px]"

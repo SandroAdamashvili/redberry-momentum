@@ -12,7 +12,10 @@ export default function Header({ onModalClick }) {
         src={Logo}
         alt="logo"
         className="w-[210px] h-[38px] hover:cursor-pointer"
-        onClick={() => navigate("/")}
+        onClick={() => {
+          navigate("/");
+          localStorage.clear();
+        }}
       />
       <div className="flex flex-row gap-[40px]">
         <Button onClick={onModalClick} dark={false}>
@@ -20,7 +23,10 @@ export default function Header({ onModalClick }) {
         </Button>
         <div
           className="flex flex-row justify-center items-center gap-[4px] bg-[#8338EC] text-white px-[20px] py-[10px] rounded-[5px] hover:bg-[#B588F4] hover:cursor-pointer"
-          onClick={() => navigate("/create-task")}
+          onClick={() => {
+            navigate("/create-task");
+            localStorage.clear();
+          }}
         >
           <img src={PlusIcon} alt="plus icon" />
           <p>შექმენი ახალი დავალება</p>

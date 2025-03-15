@@ -7,18 +7,22 @@ export default function TaskInput({
   onChange,
   inputValue,
   handleValidation,
+  validation,
 }) {
-  const [minTwoSymbols, setMinTwoSymbols] = useState(null);
+  const [minSymbols, setMinSymbols] = useState(null);
   const [maxSymbols, setMaxSymbols] = useState(null);
 
   function handleChange(e) {
     const value = e.target.value;
     onChange(inputName, value);
 
-    const isMinValid = value.length >= 2;
+    const isMinValid =
+      type === "text"
+        ? value.length >= 3
+        : value.length >= 4 || value.length === 0;
     const isMaxValid = value.length <= 255;
 
-    setMinTwoSymbols(isMinValid);
+    setMinSymbols(isMinValid);
     setMaxSymbols(isMaxValid);
 
     handleValidation(inputName, !(isMinValid && isMaxValid));
@@ -31,7 +35,7 @@ export default function TaskInput({
         <input
           type="text"
           className={`w-[550px] h-[45px] border ${
-            minTwoSymbols === false || maxSymbols === false
+            minSymbols === false || maxSymbols === false || validation
               ? "border-[#FA4D4D]"
               : "border-[#CED4DA]"
           } bg-white rounded-[6px] p-[10px] focus:outline-none mb-2`}
@@ -40,21 +44,25 @@ export default function TaskInput({
         />
       ) : (
         <textarea
-          className="w-[550px] h-[133px] border border-[#CED4DA] bg-white rounded-[6px] p-[10px] focus:outline-none mb-2"
+          className={`w-[550px] h-[133px] border ${
+            minSymbols === false || maxSymbols === false || validation
+              ? "border-[#FA4D4D]"
+              : "border-[#CED4DA]"
+          } bg-white rounded-[6px] p-[10px] focus:outline-none mb-2`}
           onChange={handleChange}
           value={inputValue}
         ></textarea>
       )}
       <p
         className={`text-xs font-light ${
-          minTwoSymbols == null
+          minSymbols == null
             ? "text-[#6C757D]"
-            : minTwoSymbols
+            : minSymbols
             ? "text-[#08A508]"
             : "text-[#FA4D4D]"
         }`}
       >
-        მინიმუმ 2 სიმბოლო
+        {type === "text" ? "მინიმუმ 3 სიმბოლო" : "მინიმუმ 4 სიმბოლო"}
       </p>
       <p
         className={`text-xs font-light ${

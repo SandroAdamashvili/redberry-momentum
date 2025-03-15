@@ -20,19 +20,24 @@ export default function CreateTaskPage() {
     name: localStorage.getItem("name") || "",
     description: localStorage.getItem("description") || "",
     due_date: localStorage.getItem("due_date") || defaultDate,
-    status_id: localStorage.getItem("status_id") || "",
-    employee_id: localStorage.getItem("employee_id") || "",
-    priority_id: localStorage.getItem("priority_id") || "",
-    department_id: localStorage.getItem("department_id") || "",
+    status_id: localStorage.getItem("status_id") || 1,
+    employee_id: Number(localStorage.getItem("employee_id")) || "",
+    priority_id: localStorage.getItem("priority_id") || 2,
+    department_id: Number(localStorage.getItem("department_id")) || "",
   });
   const [taskError, setTaskError] = useState({
-    name: false,
-    description: false,
-    due_date: false,
-    status_id: false,
-    employee_id: false,
-    priority_id: false,
-    department_id: false,
+    name: localStorage.getItem("validation")
+      ? JSON.parse(localStorage.getItem("validation")).name
+      : false,
+    description: localStorage.getItem("validation")
+      ? JSON.parse(localStorage.getItem("validation")).description
+      : false,
+    employee_id: localStorage.getItem("validation")
+      ? JSON.parse(localStorage.getItem("validation")).employee_id
+      : false,
+    department_id: localStorage.getItem("validation")
+      ? JSON.parse(localStorage.getItem("validation")).department_id
+      : false,
   });
   let navigate = useNavigate();
 
@@ -45,10 +50,16 @@ export default function CreateTaskPage() {
   }
 
   function handleValidation(key, value) {
-    setTaskError((prevValues) => ({
-      ...prevValues,
-      [key]: value,
-    }));
+    setTaskError((prevValues) => {
+      localStorage.setItem(
+        "validation",
+        JSON.stringify({ ...prevValues, [key]: value })
+      );
+      return {
+        ...prevValues,
+        [key]: value,
+      };
+    });
   }
 
   async function handleCreateTask() {
@@ -58,6 +69,29 @@ export default function CreateTaskPage() {
       if (key !== "department_id") {
         taskObject[key] = taskInfo[key];
       }
+    }
+
+    if (
+      taskInfo.department_id === "" ||
+      taskInfo.employee_id === "" ||
+      taskInfo.name === "" ||
+      taskInfo.name.length < 3 ||
+      taskInfo.name.length > 255 ||
+      (taskInfo.description.length > 0 && taskInfo.description.length < 4) ||
+      taskInfo.description.length > 255
+    ) {
+      taskInfo.department_id === "" && handleValidation("department_id", true);
+      taskInfo.department_id !== "" &&
+        taskInfo.employee_id === "" &&
+        handleValidation("employee_id", true);
+      (taskInfo.name === "" ||
+        taskInfo.name.length < 3 ||
+        taskInfo.name.length > 255) &&
+        handleValidation("name", true);
+      ((taskInfo.description.length > 0 && taskInfo.description.length < 4) ||
+        taskInfo.description.length > 255) &&
+        handleValidation("description", true);
+      return;
     }
 
     console.log(taskObject);
@@ -81,7 +115,6 @@ export default function CreateTaskPage() {
   }
 
   console.log(taskInfo);
-  console.log(taskInfo.department_id);
   console.log(taskError);
 
   return (
@@ -100,11 +133,14 @@ export default function CreateTaskPage() {
             onChange={handleTaskChange}
             inputValue={taskInfo.name}
             handleValidation={handleValidation}
+            validation={taskError.name}
           />
           <DepartmentSelect
             type="taskDeps"
             depValue={taskInfo.department_id}
             handleChange={handleTaskChange}
+            validation={taskError.department_id}
+            handleValidation={handleValidation}
           />
         </div>
         <div className="flex flex-row gap-[161px] items-start">
@@ -115,6 +151,7 @@ export default function CreateTaskPage() {
             onChange={handleTaskChange}
             inputValue={taskInfo.description}
             handleValidation={handleValidation}
+            validation={taskError.description}
           />
           {taskInfo.department_id && (
             <EmployeesSelect
@@ -122,6 +159,8 @@ export default function CreateTaskPage() {
               handleChange={handleTaskChange}
               empValue={taskInfo.employee_id}
               dep_id={taskInfo.department_id}
+              validation={taskError.employee_id}
+              handleValidation={handleValidation}
             />
           )}
         </div>

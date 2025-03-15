@@ -5,6 +5,7 @@ import PurpleArr from "../../assets/purple-arrow-down.svg";
 import Check from "../../assets/check.svg";
 import Checked from "../../assets/checked.svg";
 import useGetEmployees from "../../hooks/useGetEmployees";
+import { useState } from "react";
 
 export default function Filter({
   filterOpen,
@@ -19,6 +20,11 @@ export default function Filter({
       : filterName === "პრიორიტეტი"
       ? useGetPriority()
       : useGetEmployees();
+
+  const [filterValue, setFilterValue] =
+    localStorage.getItem(filterName) || filterName === "თანამშრომელი"
+      ? useState(value)
+      : useState([...value]);
 
   return (
     <>
@@ -48,8 +54,8 @@ export default function Filter({
                   key={item.id}
                   className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
                   onClick={() =>
-                    setValue((prevValues) => {
-                      return value.find((obj) => obj.id === item.id)
+                    setFilterValue((prevValues) => {
+                      return filterValue.find((obj) => obj.id === item.id)
                         ? prevValues.filter((obj) => obj.id !== item.id)
                         : [...prevValues, item];
                     })
@@ -57,7 +63,9 @@ export default function Filter({
                 >
                   <img
                     src={
-                      value.find((obj) => obj.id === item.id) ? Checked : Check
+                      filterValue.find((obj) => obj.id === item.id)
+                        ? Checked
+                        : Check
                     }
                     alt="check"
                   />
@@ -68,8 +76,8 @@ export default function Filter({
                   key={item.id}
                   className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
                   onClick={() =>
-                    setValue((prevValues) => {
-                      return value.find((obj) => obj.id === item.id)
+                    setFilterValue((prevValues) => {
+                      return filterValue.find((obj) => obj.id === item.id)
                         ? prevValues.filter((obj) => obj.id !== item.id)
                         : [...prevValues, item];
                     })
@@ -77,7 +85,9 @@ export default function Filter({
                 >
                   <img
                     src={
-                      value.find((obj) => obj.id === item.id) ? Checked : Check
+                      filterValue.find((obj) => obj.id === item.id)
+                        ? Checked
+                        : Check
                     }
                     alt="check"
                   />
@@ -88,11 +98,13 @@ export default function Filter({
                   key={item.id}
                   className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
                   onClick={() => {
-                    return value.id === item.id ? setValue({}) : setValue(item);
+                    return filterValue.id === item.id
+                      ? setFilterValue({})
+                      : setFilterValue(item);
                   }}
                 >
                   <img
-                    src={value.id === item.id ? Checked : Check}
+                    src={filterValue.id === item.id ? Checked : Check}
                     alt="check"
                   />
                   <div className="flex flex-row gap-[10px] items-center">
@@ -108,6 +120,22 @@ export default function Filter({
             )}
           </ol>
         )}
+        <div className="w-full flex flex-row justify-end">
+          <button
+            className="w-[155px] bg-[#8338EC] text-white py-2 px-5 rounded-[20px]"
+            onClick={() => {
+              filterName === "თანამშრომელი"
+                ? setValue(filterValue)
+                : setValue((prevValues) => [
+                    ...new Set([...prevValues, ...filterValue]),
+                  ]);
+              handleFilterBox(filterName);
+              localStorage.setItem(filterName, JSON.stringify(filterValue));
+            }}
+          >
+            არჩევა
+          </button>
+        </div>
       </div>
     </>
   );

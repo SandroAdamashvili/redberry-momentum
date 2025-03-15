@@ -22,9 +22,21 @@ export default function MainPage() {
     ...data.filter((item) => item.status.name === "დასრულებული"),
   ];
   const [filterOpen, setFilterOpen] = useState({});
-  const [employeeSelected, setEmployeeSelected] = useState({});
-  const [prioritiesSelected, setPrioritiesSelected] = useState([]);
-  const [depsSelected, setDepsSelected] = useState([]);
+  const [employeeSelected, setEmployeeSelected] = useState(
+    localStorage.getItem("თანამშრომელი")
+      ? JSON.parse(localStorage.getItem("თანამშრომელი"))
+      : {}
+  );
+  const [prioritiesSelected, setPrioritiesSelected] = useState(
+    localStorage.getItem("პრიორიტეტი")
+      ? JSON.parse(localStorage.getItem("პრიორიტეტი"))
+      : []
+  );
+  const [depsSelected, setDepsSelected] = useState(
+    localStorage.getItem("დეპარტამენტი")
+      ? JSON.parse(localStorage.getItem("დეპარტამენტი"))
+      : []
+  );
 
   function handleFilterBox(name) {
     setFilterOpen({ [name]: !filterOpen[name] });
@@ -72,9 +84,15 @@ export default function MainPage() {
               alt="x icon"
               className="hover:cursor-pointer"
               onClick={() =>
-                setDepsSelected((prevValues) =>
-                  prevValues.filter((obj) => obj.id !== dep.id)
-                )
+                setDepsSelected((prevValues) => {
+                  localStorage.setItem(
+                    "დეპარტამენტი",
+                    JSON.stringify([
+                      ...prevValues.filter((obj) => obj.id !== dep.id),
+                    ])
+                  );
+                  return prevValues.filter((obj) => obj.id !== dep.id);
+                })
               }
             />
           </li>
@@ -90,9 +108,15 @@ export default function MainPage() {
               alt="x icon"
               className="hover:cursor-pointer"
               onClick={() =>
-                setPrioritiesSelected((prevValues) =>
-                  prevValues.filter((obj) => obj.id !== priority.id)
-                )
+                setPrioritiesSelected((prevValues) => {
+                  localStorage.setItem(
+                    "პრიორიტეტი",
+                    JSON.stringify([
+                      ...prevValues.filter((obj) => obj.id !== priority.id),
+                    ])
+                  );
+                  return prevValues.filter((obj) => obj.id !== priority.id);
+                })
               }
             />
           </li>
@@ -104,7 +128,10 @@ export default function MainPage() {
               src={XIcon}
               alt="x icon"
               className="hover:cursor-pointer"
-              onClick={() => setEmployeeSelected({})}
+              onClick={() => {
+                setEmployeeSelected({});
+                localStorage.removeItem("თანამშრომელი");
+              }}
             />
           </li>
         )}
@@ -117,6 +144,7 @@ export default function MainPage() {
               setDepsSelected([]);
               setPrioritiesSelected([]);
               setEmployeeSelected({});
+              localStorage.clear();
             }}
           >
             გასუფთავება
