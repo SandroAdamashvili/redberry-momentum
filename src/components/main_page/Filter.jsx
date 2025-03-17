@@ -5,7 +5,7 @@ import PurpleArr from "../../assets/purple-arrow-down.svg";
 import Check from "../../assets/check.svg";
 import Checked from "../../assets/checked.svg";
 import useGetEmployees from "../../hooks/useGetEmployees";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Filter({
   filterOpen,
@@ -13,16 +13,21 @@ export default function Filter({
   handleFilterBox,
   value,
   setValue,
+  employeesData,
 }) {
   const { data } =
     filterName === "დეპარტამენტი"
       ? useGetDeps()
-      : filterName === "პრიორიტეტი"
-      ? useGetPriority()
-      : useGetEmployees();
+      : filterName === "პრიორიტეტი" && useGetPriority();
 
   const [filterValue, setFilterValue] =
     filterName === "თანამშრომელი" ? useState(value) : useState([...value]);
+
+  useEffect(() => {
+    filterName === "თანამშრომელი"
+      ? setFilterValue(value)
+      : setFilterValue([...value]);
+  }, [value]);
 
   return (
     <>
@@ -46,76 +51,80 @@ export default function Filter({
       >
         {filterOpen && (
           <ol className="flex flex-col gap-[22px] text-base h-[170px] overflow-y-auto">
-            {data.map((item) =>
-              filterName === "დეპარტამენტი" ? (
-                <li
-                  key={item.id}
-                  className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
-                  onClick={() =>
-                    setFilterValue((prevValues) => {
-                      return filterValue.find((obj) => obj.id === item.id)
-                        ? prevValues.filter((obj) => obj.id !== item.id)
-                        : [...prevValues, item];
-                    })
-                  }
-                >
-                  <img
-                    src={
-                      filterValue.find((obj) => obj.id === item.id)
-                        ? Checked
-                        : Check
-                    }
-                    alt="check"
-                  />
-                  <p>{item.name}</p>
-                </li>
-              ) : filterName === "პრიორიტეტი" ? (
-                <li
-                  key={item.id}
-                  className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
-                  onClick={() =>
-                    setFilterValue((prevValues) => {
-                      return filterValue.find((obj) => obj.id === item.id)
-                        ? prevValues.filter((obj) => obj.id !== item.id)
-                        : [...prevValues, item];
-                    })
-                  }
-                >
-                  <img
-                    src={
-                      filterValue.find((obj) => obj.id === item.id)
-                        ? Checked
-                        : Check
-                    }
-                    alt="check"
-                  />
-                  <p>{item.name}</p>
-                </li>
-              ) : (
-                <li
-                  key={item.id}
-                  className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
-                  onClick={() => {
-                    return filterValue.id === item.id
-                      ? setFilterValue({})
-                      : setFilterValue(item);
-                  }}
-                >
-                  <img
-                    src={filterValue.id === item.id ? Checked : Check}
-                    alt="check"
-                  />
-                  <div className="flex flex-row gap-[10px] items-center">
+            {filterName === "თანამშრომელი"
+              ? employeesData.map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
+                    onClick={() => {
+                      return filterValue.id === item.id
+                        ? setFilterValue({})
+                        : setFilterValue(item);
+                    }}
+                  >
                     <img
-                      src={item.avatar}
-                      alt="avatar"
-                      className="w-[28px] h-[28px] rounded-[100px]"
+                      src={filterValue.id === item.id ? Checked : Check}
+                      alt="check"
                     />
-                    <p>{item.name + " " + item.surname}</p>
-                  </div>
-                </li>
-              )
-            )}
+                    <div className="flex flex-row gap-[10px] items-center">
+                      <img
+                        src={item.avatar}
+                        alt="avatar"
+                        className="w-[28px] h-[28px] rounded-[100px]"
+                      />
+                      <p>{item.name + " " + item.surname}</p>
+                    </div>
+                  </li>
+                ))
+              : data.map((item) =>
+                  filterName === "დეპარტამენტი" ? (
+                    <li
+                      key={item.id}
+                      className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
+                      onClick={() =>
+                        setFilterValue((prevValues) => {
+                          return filterValue.find((obj) => obj.id === item.id)
+                            ? prevValues.filter((obj) => obj.id !== item.id)
+                            : [...prevValues, item];
+                        })
+                      }
+                    >
+                      <img
+                        src={
+                          filterValue.find((obj) => obj.id === item.id)
+                            ? Checked
+                            : Check
+                        }
+                        alt="check"
+                      />
+                      <p>{item.name}</p>
+                    </li>
+                  ) : (
+                    filterName === "პრიორიტეტი" && (
+                      <li
+                        key={item.id}
+                        className="flex flex-row gap-[15px] items-center hover:cursor-pointer"
+                        onClick={() =>
+                          setFilterValue((prevValues) => {
+                            return filterValue.find((obj) => obj.id === item.id)
+                              ? prevValues.filter((obj) => obj.id !== item.id)
+                              : [...prevValues, item];
+                          })
+                        }
+                      >
+                        <img
+                          src={
+                            filterValue.find((obj) => obj.id === item.id)
+                              ? Checked
+                              : Check
+                          }
+                          alt="check"
+                        />
+                        <p>{item.name}</p>
+                      </li>
+                    )
+                  )
+                )}
           </ol>
         )}
         <div className="w-full flex flex-row justify-end">

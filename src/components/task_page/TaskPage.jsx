@@ -18,7 +18,7 @@ export default function TaskPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const priorities = ["#08A508", "#FFBE0B", "#FA4D4D"];
   const { addComment } = useAddComment(id);
-  const [comment, setComment] = useState();
+  const [comment, setComment] = useState("");
   const [reply, setReply] = useState();
   const [commentsData, setCommentsData] = useGetComments(id);
 
@@ -62,7 +62,11 @@ export default function TaskPage() {
 
   return (
     <>
-      <Modal open={modalOpen} onModalClose={() => setModalOpen(false)} />
+      <Modal
+        open={modalOpen}
+        onModalClose={() => setModalOpen(false)}
+        updateRequired={false}
+      />
       <Header onModalClick={() => setModalOpen(true)} />
       <div className="flex flex-row gap-[223px] justify-between">
         <div className="flex flex-col w-[715px] mt-[40px]">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../Header";
 import Modal from "../modal/Modal";
 import TaskInput from "./TaskInput";
@@ -8,6 +8,7 @@ import SmallSelect from "./SmallSelect";
 import TaskDate from "./TaskDate";
 import Button from "../Button";
 import useCreateTask from "../../hooks/useCreateTask";
+import useGetEmployees from "../../hooks/useGetEmployees";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateTaskPage() {
@@ -39,6 +40,7 @@ export default function CreateTaskPage() {
       ? JSON.parse(localStorage.getItem("validation")).department_id
       : false,
   });
+  const { data, setData } = useGetEmployees();
   let navigate = useNavigate();
 
   function handleTaskChange(key, value) {
@@ -60,6 +62,10 @@ export default function CreateTaskPage() {
         [key]: value,
       };
     });
+  }
+
+  function updateEmployees(newData) {
+    setData(newData);
   }
 
   async function handleCreateTask() {
@@ -114,12 +120,14 @@ export default function CreateTaskPage() {
     }
   }
 
-  console.log(taskInfo);
-  console.log(taskError);
-
   return (
     <>
-      <Modal open={modalOpen} onModalClose={() => setModalOpen(false)} />
+      <Modal
+        open={modalOpen}
+        onModalClose={() => setModalOpen(false)}
+        updateEmployees={updateEmployees}
+        updateRequired={true}
+      />
       <Header onModalClick={() => setModalOpen(true)} />
       <h1 className="text-[34px] font-semibold mb-[25px]">
         შექმენი ახალი დავალება
@@ -161,6 +169,7 @@ export default function CreateTaskPage() {
               dep_id={taskInfo.department_id}
               validation={taskError.employee_id}
               handleValidation={handleValidation}
+              employeesData={data}
             />
           )}
         </div>

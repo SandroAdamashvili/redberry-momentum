@@ -11,19 +11,22 @@ export default function EmployeesSelect({
   dep_id,
   validation,
   handleValidation,
+  employeesData,
 }) {
   const [selectOpen, setSelectOpen] = useState(false);
-  const { data } = useGetEmployees() || [];
 
-  const filteredData = data?.filter(
+  const filteredemployeesData = employeesData?.filter(
     (employee) => employee.department?.id === dep_id
   );
-  const selectedEmployee = data?.find((employee) => employee.id === empValue);
+  const selectedEmployee = employeesData?.find(
+    (employee) => employee.id === empValue
+  );
 
-  // console.log(data[1]?.name);
-  // console.log(data);
-  console.log(selectedEmployee);
-  console.log(dep_id);
+  // console.log(employeesData[1]?.name);
+  // console.log(employeesData);
+  // console.log(selectedEmployee);
+  // console.log(dep_id);
+  console.log("employee", employeesData);
 
   return (
     <div className="w-full">
@@ -60,7 +63,7 @@ export default function EmployeesSelect({
               <img src={AddIcon} alt="add employee" />
               დაამატე თანამშრომელი
             </li>
-            {filteredData.map((employee) => {
+            {filteredemployeesData.map((employee) => {
               return (
                 empValue !== employee.id && (
                   <li

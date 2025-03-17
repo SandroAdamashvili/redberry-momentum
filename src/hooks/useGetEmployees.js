@@ -10,18 +10,22 @@ const options = {
 export default function useGetEmployees() {
     const [data, setData] = useState([])
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await axios.request(options)
-                setData(response.data)
-            } catch (error) {
-                console.error("Error fetching data: ", error)
-            }
+    async function fetchData() {
+        try {
+            const response = await axios.request(options)
+            return response.data
+        } catch (error) {
+            console.error("Error fetching data: ", error)
         }
+    }
 
-        fetchData()
+    useEffect(() => {
+        async function fetchEmployees() {
+            const response = await fetchData();
+            setData(response)
+        }
+        fetchEmployees()
     }, [])
 
-    return {data, setData}
+    return {data, setData, fetchData}
 }

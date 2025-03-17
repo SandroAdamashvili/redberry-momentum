@@ -3,12 +3,14 @@ import { useState } from "react";
 import Filter from "./Filter";
 import Modal from "../modal/Modal";
 import useGetTasks from "../../hooks/useGetTasks";
+import useGetEmployees from "../../hooks/useGetEmployees";
 import TaskCard from "./TaskCard";
 import XIcon from "../../assets/x.svg";
 
 export default function MainPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const data = useGetTasks();
+  const { data: employeesData, setData } = useGetEmployees();
   const notStarted = [
     ...data.filter((item) => item.status.name === "დასაწყები"),
   ];
@@ -38,13 +40,22 @@ export default function MainPage() {
       : []
   );
 
+  function updateEmployees(newData) {
+    setData(newData);
+  }
+
   function handleFilterBox(name) {
     setFilterOpen({ [name]: !filterOpen[name] });
   }
 
   return (
     <>
-      <Modal open={modalOpen} onModalClose={() => setModalOpen(false)} />
+      <Modal
+        open={modalOpen}
+        onModalClose={() => setModalOpen(false)}
+        updateEmployees={updateEmployees}
+        updateRequired={true}
+      />
       <Header onModalClick={() => setModalOpen(true)} />
       <h1 className="text-[34px] font-semibold mb-[52px]">
         დავალებების გვერდი
@@ -70,6 +81,7 @@ export default function MainPage() {
           handleFilterBox={handleFilterBox}
           value={employeeSelected}
           setValue={setEmployeeSelected}
+          employeesData={employeesData}
         />
       </div>
       <ol className="flex flex-row gap-[8px] items-center my-[25px] flex-wrap text-[#343A40] font-light">

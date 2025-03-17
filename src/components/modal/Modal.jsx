@@ -7,7 +7,12 @@ import Button from "../Button";
 import useCreateEmployee from "../../hooks/useCreateEmployee";
 import useGetEmployees from "../../hooks/useGetEmployees";
 
-export default function Modal({ open, onModalClose }) {
+export default function Modal({
+  open,
+  onModalClose,
+  updateEmployees,
+  updateRequired,
+}) {
   const dialogRef = useRef();
   const [modalInfo, setModalInfo] = useState({
     name: "",
@@ -23,7 +28,7 @@ export default function Modal({ open, onModalClose }) {
   });
   const [imageSrc, setImageSrc] = useState(null);
   const { createEmployee } = useCreateEmployee();
-  const { data, setData } = useGetEmployees();
+  const { fetchData } = useGetEmployees();
   const imageRef = useRef();
 
   useEffect(() => {
@@ -100,39 +105,36 @@ export default function Modal({ open, onModalClose }) {
     const fd = new FormData();
     for (const key in modalInfo) {
       fd.append(key.toString(), modalInfo[key]);
-      console.log(key);
+      // console.log(key);
     }
-    console.log(fd.get("avatar"));
+    // console.log(fd.get("avatar"));
 
     try {
-      const response = await createEmployee(fd);
-      setData((prevValues) => [...prevValues, response]);
+      await createEmployee(fd);
+      if (updateRequired) {
+        const response = await fetchData();
+        updateEmployees(response);
+      }
       handleModalClose();
-      console.log(data);
-      console.log("Success", response);
     } catch (error) {
       console.error("Failed to create employee: ", error);
     }
   }
 
-  useEffect(() => {
-    console.log("updated data: ", data);
-  }, [data]);
-
-  console.log(modalInfo);
-  console.log(modalError);
+  // console.log(modalInfo);
+  // console.log(modalError);
 
   return (
     <dialog
       ref={dialogRef}
-      className="modal w-[913px] m-auto px-[50px] pb-[60px] pt-[40px]"
+      className="modal w-[913px] m-auto"
       onClick={(e) => {
         if (e.target === dialogRef.current) {
           handleModalClose();
         }
       }}
     >
-      <div className="flex justify-end mb-[37px]">
+      <div className="flex justify-end pb-[37px] px-[50px] pt-[40px]">
         <img
           src={Cancel}
           alt="cancel icon"
@@ -140,7 +142,7 @@ export default function Modal({ open, onModalClose }) {
           className="hover:cursor-pointer"
         />
       </div>
-      <div className="flex flex-col items-center gap-[45px]">
+      <div className="flex flex-col items-center gap-[45px] px-[50px] pb-[60px]">
         <h1 className="text-[32px] font-medium">თანამშრომლის დამატება</h1>
         <div className="w-full flex flex-row gap-[45px]">
           <ModalInput
