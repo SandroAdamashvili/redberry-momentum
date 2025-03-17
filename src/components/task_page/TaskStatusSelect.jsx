@@ -7,7 +7,7 @@ import useChangeStatus from "../../hooks/useChangeStatus";
 export default function TaskStatusSelect({ selectValue, taskId }) {
   const [selectOpen, setSelectOpen] = useState(false);
   const [statusValue, setStatusValue] = useState(selectValue);
-  const statuses = useGetStatus();
+  const { data } = useGetStatus();
   const { changeStatus } = useChangeStatus();
 
   async function handleSelect(status) {
@@ -26,8 +26,8 @@ export default function TaskStatusSelect({ selectValue, taskId }) {
       <p className="text-sm font-light">{statusValue ?? selectValue}</p>
       <img src={selectOpen ? ArrUp : ArrDown} alt="arrow" />
       {selectOpen && (
-        <ol className="absolute w-[259px] max-h-[184px] border-b border-r border-l border-[#CED4DA] bg-white top-[36px] right-0 left-[-1px] flex flex-col gap-[11px] z-30 overflow-y-auto">
-          {statuses.map((status) => {
+        <ol className="absolute w-[259px] max-h-[184px] py-3 border-b border-r border-l border-[#CED4DA] bg-white top-[36px] right-0 left-[-1px] flex flex-col gap-[11px] z-30 overflow-y-auto">
+          {data.map((status) => {
             if (status.name !== (statusValue ?? selectValue)) {
               return (
                 <li

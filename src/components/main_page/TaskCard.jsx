@@ -7,6 +7,7 @@ export default function TaskCard({
   depFilter,
   priorityFilter,
   employeeFilter,
+  depColor,
 }) {
   const navigate = useNavigate();
   const priorities = ["#08A508", "#FFBE0B", "#FA4D4D"];
@@ -42,12 +43,10 @@ export default function TaskCard({
     <>
       {data.map(
         (task) =>
-          (depFilter.includes(task.department.id) ||
-            priorityFilter.includes(task.priority.id) ||
-            employeeFilter === task.employee.id ||
-            (depFilter.length === 0 &&
-              priorityFilter.length === 0 &&
-              !employeeFilter)) && (
+          (depFilter.length === 0 || depFilter.includes(task.department.id)) &&
+          (priorityFilter.length === 0 ||
+            priorityFilter.includes(task.priority.id)) &&
+          (!employeeFilter || employeeFilter === task.employee.id) && (
             <div
               key={task.id}
               className={`w-full flex flex-col gap-[28px] border ${color} rounded-[15px] p-[20px] hover:cursor-pointer`}
@@ -65,7 +64,10 @@ export default function TaskCard({
                     <img src={task.priority.icon} alt="icon" />
                     {task.priority.name}
                   </div>
-                  <div className="px-[9px] py-[5px] bg-[#FF66A8] rounded-[15px] text-white">
+                  <div
+                    className="px-[9px] py-[5px] rounded-[15px] text-white"
+                    style={{ backgroundColor: depColor }}
+                  >
                     {deps[task.department.id - 1]}
                   </div>
                 </div>

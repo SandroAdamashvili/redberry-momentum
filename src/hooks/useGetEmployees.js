@@ -23,5 +23,5 @@ export default function useGetEmployees() {
         fetchData()
     }, [])
 
-    return (data)
+    return {data, setData}
 }

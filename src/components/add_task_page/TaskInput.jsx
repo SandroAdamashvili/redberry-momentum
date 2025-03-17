@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export default function TaskInput({
   type,
@@ -48,7 +48,7 @@ export default function TaskInput({
             minSymbols === false || maxSymbols === false || validation
               ? "border-[#FA4D4D]"
               : "border-[#CED4DA]"
-          } bg-white rounded-[6px] p-[10px] focus:outline-none mb-2`}
+          } bg-white rounded-[6px] p-[10px] focus:outline-none mb-2 resize-none`}
           onChange={handleChange}
           value={inputValue}
         ></textarea>

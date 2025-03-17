@@ -15,7 +15,11 @@ export default function Comments({
       <div className="flex flex-row items-center gap-[7px]">
         <h3>კომენტარები</h3>
         <span className="px-[10px] py-[2.5px] flex items-center justify-center text-white text-sm font-medium rounded-[30px] bg-[#8338EC]">
-          {data.length}
+          {data.reduce(
+            (accumulator, currentValue) =>
+              accumulator + 1 + (currentValue.sub_comments?.length || 0),
+            0
+          )}
         </span>
       </div>
       <ol className="flex flex-col gap-[40px]">

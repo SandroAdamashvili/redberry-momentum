@@ -11,9 +11,9 @@ export default function DepartmentSelect({
   handleValidation,
 }) {
   const [depsOpen, setDepsOpen] = useState(false);
-  const depsData = useGetDeps();
+  const { data } = useGetDeps();
 
-  // console.log(depsData);
+  // console.log(data);
 
   return (
     <div className="w-full">
@@ -26,7 +26,7 @@ export default function DepartmentSelect({
         } bg-white rounded-md relative hover:cursor-pointer`}
         onClick={() => setDepsOpen(!depsOpen)}
       >
-        <p className="text-sm">{depValue && depsData[depValue - 1]?.name}</p>
+        <p className="text-sm">{depValue && data[depValue - 1]?.name}</p>
         <img src={depsOpen ? ArrUp : ArrDown} alt="arrow" />
         {depsOpen && (
           <ol
@@ -34,20 +34,26 @@ export default function DepartmentSelect({
               type === "taskDeps"
                 ? "w-[550px] max-h-[230px]"
                 : "w-[384px] max-h-[100px]"
-            } border-b border-r border-l border-[#CED4DA] bg-white top-[36px] right-0 left-[-1px] flex flex-col gap-[11px] z-40 overflow-y-auto`}
+            } border-b border-r border-l py-3 border-[#CED4DA] bg-white top-[36px] right-0 left-[-1px] flex flex-col gap-[11px] z-40 overflow-y-auto`}
           >
-            {depsData.map((department) => {
+            {data.map((department) => {
               return (
-                <li
-                  key={department.id}
-                  className="font-light text-sm py-3 px-3.5 hover:cursor-pointer"
-                  onClick={() => {
-                    handleChange("department_id", department.id);
-                    handleValidation("department_id", false);
-                  }}
-                >
-                  {department.name}
-                </li>
+                depValue !== department.id && (
+                  <li
+                    key={department.id}
+                    className="font-light text-sm py-3 px-3.5 hover:cursor-pointer"
+                    onClick={() => {
+                      handleChange("department_id", department.id);
+                      handleValidation("department_id", false);
+                      localStorage.getItem("employee_id") &&
+                        handleChange("employee_id", "");
+                      localStorage.getItem("employee_id") &&
+                        localStorage.removeItem("employee_id");
+                    }}
+                  >
+                    {department.name}
+                  </li>
+                )
               );
             })}
           </ol>

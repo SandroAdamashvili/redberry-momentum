@@ -48,7 +48,17 @@ export default function TaskPage() {
     }
   }
 
-  console.log(commentsData);
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+
+    const weekdays = ["კვი", "ორშ", "სამ", "ოთხ", "ხუთ", "პარ", "შაბ"];
+    const weekDay = weekdays[date.getUTCDay()];
+    const formattedDate = `${weekDay} - ${date.getUTCDate()}/${
+      date.getUTCMonth() + 1
+    }/${date.getUTCFullYear()}`;
+
+    return formattedDate;
+  }
 
   return (
     <>
@@ -118,7 +128,7 @@ export default function TaskPage() {
                 </div>
               </div>
               <div className="h-[70px] flex flex-row items-center">
-                {data?.due_date?.split("T")[0]}
+                {formatDate(data?.due_date)}
               </div>
             </div>
           </div>

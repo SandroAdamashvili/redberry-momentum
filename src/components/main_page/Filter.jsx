@@ -14,7 +14,7 @@ export default function Filter({
   value,
   setValue,
 }) {
-  const data =
+  const { data } =
     filterName === "დეპარტამენტი"
       ? useGetDeps()
       : filterName === "პრიორიტეტი"
@@ -22,9 +22,7 @@ export default function Filter({
       : useGetEmployees();
 
   const [filterValue, setFilterValue] =
-    localStorage.getItem(filterName) || filterName === "თანამშრომელი"
-      ? useState(value)
-      : useState([...value]);
+    filterName === "თანამშრომელი" ? useState(value) : useState([...value]);
 
   return (
     <>
@@ -122,7 +120,7 @@ export default function Filter({
         )}
         <div className="w-full flex flex-row justify-end">
           <button
-            className="w-[155px] bg-[#8338EC] text-white py-2 px-5 rounded-[20px]"
+            className="w-[155px] bg-[#8338EC] text-white py-2 px-5 rounded-[20px] hover:cursor-pointer hover:bg-[#B588F4]"
             onClick={() => {
               filterName === "თანამშრომელი"
                 ? setValue(filterValue)

@@ -23,5 +23,5 @@ export default function useGetPriority() {
         fetchData()
     }, [])
 
-    return (data)
+    return {data}
 }

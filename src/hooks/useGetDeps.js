@@ -23,5 +23,5 @@ export default function useGetDeps() {
         fetchData()
     }, [])
 
-    return (data)
+    return {data}
 }

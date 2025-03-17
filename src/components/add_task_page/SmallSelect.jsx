@@ -12,7 +12,7 @@ export default function SmallSelect({
   selectValue,
 }) {
   const [selectOpen, setSelectOpen] = useState(false);
-  const data = type === "status" ? useGetStatus() : useGetPriority();
+  const { data } = type === "status" ? useGetStatus() : useGetPriority();
 
   return (
     <div className="w-full">
@@ -35,17 +35,19 @@ export default function SmallSelect({
         )}
         <img src={selectOpen ? ArrUp : ArrDown} alt="arrow" />
         {selectOpen && (
-          <ol className="absolute w-[259px] max-h-[230px] border-b border-r border-l border-[#CED4DA] bg-white top-[36px] right-0 left-[-1px] flex flex-col gap-[11px] z-30 overflow-y-auto">
+          <ol className="absolute w-[259px] max-h-[230px] py-3 border-b border-r border-l border-[#CED4DA] bg-white top-[36px] right-0 left-[-1px] flex flex-col gap-[11px] z-30 overflow-y-auto">
             {data.map((item) => {
               return (
-                <li
-                  key={item.id}
-                  className="flex flex-row gap-[6px] items-center font-light text-sm py-3 px-3.5 hover:cursor-pointer"
-                  onClick={() => handleChange(infoKey, item.id)}
-                >
-                  {type === "priority" && <img src={item.icon} alt="icon" />}
-                  {item.name}
-                </li>
+                selectValue !== item.id && (
+                  <li
+                    key={item.id}
+                    className="flex flex-row gap-[6px] items-center font-light text-sm py-3 px-3.5 hover:cursor-pointer"
+                    onClick={() => handleChange(infoKey, item.id)}
+                  >
+                    {type === "priority" && <img src={item.icon} alt="icon" />}
+                    {item.name}
+                  </li>
+                )
               );
             })}
           </ol>

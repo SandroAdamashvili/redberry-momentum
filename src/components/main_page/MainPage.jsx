@@ -162,6 +162,7 @@ export default function MainPage() {
             depFilter={depsSelected.map((dep) => dep.id)}
             priorityFilter={prioritiesSelected.map((priority) => priority.id)}
             employeeFilter={employeeSelected.id}
+            depColor={"#FFD86D"}
           />
         </div>
         <div className="flex flex-col gap-[30px]">
@@ -174,6 +175,7 @@ export default function MainPage() {
             depFilter={depsSelected.map((dep) => dep.id)}
             priorityFilter={prioritiesSelected.map((priority) => priority.id)}
             employeeFilter={employeeSelected.id}
+            depColor={"#FD9A6A"}
           />
         </div>
         <div className="flex flex-col gap-[30px]">
@@ -186,6 +188,7 @@ export default function MainPage() {
             depFilter={depsSelected.map((dep) => dep.id)}
             priorityFilter={prioritiesSelected.map((priority) => priority.id)}
             employeeFilter={employeeSelected.id}
+            depColor={"#FF66A8"}
           />
         </div>
         <div className="flex flex-col gap-[30px]">
@@ -198,6 +201,7 @@ export default function MainPage() {
             depFilter={depsSelected.map((dep) => dep.id)}
             priorityFilter={prioritiesSelected.map((priority) => priority.id)}
             employeeFilter={employeeSelected.id}
+            depColor={"#89B6FF"}
           />
         </div>
       </div>
