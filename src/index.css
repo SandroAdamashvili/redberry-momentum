@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://free.bboxtype.com/embedfonts/?family=FiraGO:300,400,500,600,700');
 
 :root {
     padding: 0 120px;

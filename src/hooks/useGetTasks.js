@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const options = {
     method: 'GET',
     url: 'https://momentum.redberryinternship.ge/api/tasks',
-    headers: {Accept: 'application/json', Authorization: "Bearer 9e69f803-b6e5-4eea-9055-26904f2ed4a1"}
+    headers: {Accept: 'application/json', Authorization: "Bearer 9e766a7c-d553-4055-8572-c282604a14fd"}
   };
 
 export default function useGetTasks() {
