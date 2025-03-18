@@ -31,7 +31,9 @@ export default function CommentTextField({
             setIsValid(comment.trim().length > 0);
             comment.trim().length > 0 &&
               createComment({ text: comment, parent_id: parent_id });
-            replyOpen && setReplyOpen(false);
+            replyOpen &&
+              comment.trim().length > 0 &&
+              setReplyOpen({ [parent_id]: false });
           }}
         >
           დააკომენტარე

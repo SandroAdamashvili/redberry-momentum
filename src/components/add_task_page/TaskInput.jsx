@@ -9,8 +9,16 @@ export default function TaskInput({
   handleValidation,
   validation,
 }) {
-  const [minSymbols, setMinSymbols] = useState(null);
-  const [maxSymbols, setMaxSymbols] = useState(null);
+  const [minSymbols, setMinSymbols] = useState(
+    localStorage.getItem(`${inputName}Min`)
+      ? JSON.parse(localStorage.getItem(`${inputName}Min`))
+      : null
+  );
+  const [maxSymbols, setMaxSymbols] = useState(
+    localStorage.getItem(`${inputName}Max`)
+      ? JSON.parse(localStorage.getItem(`${inputName}Max`))
+      : null
+  );
 
   function handleChange(e) {
     const value = e.target.value;
@@ -24,6 +32,16 @@ export default function TaskInput({
 
     setMinSymbols(isMinValid);
     setMaxSymbols(isMaxValid);
+
+    localStorage.setItem(`${inputName}Min`, isMinValid);
+    localStorage.setItem(`${inputName}Max`, isMaxValid);
+
+    if (inputName === "description" && value.length === 0) {
+      localStorage.removeItem(`${inputName}Min`);
+      localStorage.removeItem(`${inputName}Max`);
+      setMinSymbols(null);
+      setMaxSymbols(null);
+    }
 
     handleValidation(inputName, !(isMinValid && isMaxValid));
   }

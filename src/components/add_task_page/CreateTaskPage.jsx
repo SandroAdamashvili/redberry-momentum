@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../Header";
 import Modal from "../modal/Modal";
 import TaskInput from "./TaskInput";

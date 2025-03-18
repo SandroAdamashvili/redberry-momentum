@@ -4,7 +4,6 @@ import useGetPriority from "../../hooks/useGetPriority";
 import PurpleArr from "../../assets/purple-arrow-down.svg";
 import Check from "../../assets/check.svg";
 import Checked from "../../assets/checked.svg";
-import useGetEmployees from "../../hooks/useGetEmployees";
 import { useEffect, useState } from "react";
 
 export default function Filter({

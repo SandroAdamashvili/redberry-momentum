@@ -41,9 +41,10 @@ export default function Comments({
                   <p className="text-base font-light">{comment.text}</p>
                   <div
                     className="flex flex-row gap-1.5 hover:cursor-pointer"
-                    onClick={() =>
-                      setReplyOpen({ [comment.id]: !replyOpen[comment.id] })
-                    }
+                    onClick={() => {
+                      setReplyOpen({ [comment.id]: !replyOpen[comment.id] });
+                      setComment("");
+                    }}
                   >
                     <img src={Reply} alt="reply icon" />
                     <p className="text-base text-[#8338EC] font-light">

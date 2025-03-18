@@ -13,8 +13,6 @@ export default function DepartmentSelect({
   const [depsOpen, setDepsOpen] = useState(false);
   const { data } = useGetDeps();
 
-  // console.log(data);
-
   return (
     <div className="w-full">
       <p>დეპარტამენტი*</p>

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ArrDown from "../../assets/small-arrow-down.svg";
 import ArrUp from "../../assets/arrow-up.svg";
-import useGetEmployees from "../../hooks/useGetEmployees";
 import AddIcon from "../../assets/add-employee.svg";
 
 export default function EmployeesSelect({
@@ -22,15 +21,9 @@ export default function EmployeesSelect({
     (employee) => employee.id === empValue
   );
 
-  // console.log(employeesData[1]?.name);
-  // console.log(employeesData);
-  // console.log(selectedEmployee);
-  // console.log(dep_id);
-  console.log("employee", employeesData);
-
   return (
     <div className="w-full">
-      <p>პასუხისმგებელი თანამშრომელი*</p>
+      <p className="text-[#ADB5BD]">პასუხისმგებელი თანამშრომელი*</p>
       <div
         className={`w-[550px] h-[45px] px-[14px] flex flex-row items-center justify-between border ${
           validation ? "border-[#FA4D4D]" : "border-[#CED4DA]"

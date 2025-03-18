@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Tick from "../Tick";
 
 export default function ModalInput({
   title,
@@ -45,42 +46,78 @@ export default function ModalInput({
           borderColor: validation ? "#FA4D4D" : "#CED4DA",
         }}
       />
-      <p
-        className={`text-xs font-light ${
-          (!validation && !minSymbols) ||
-          (!validation && inputValue.length === 0)
-            ? "text-[#6C757D]"
-            : minSymbols || !validation
-            ? "text-[#08A508]"
-            : "text-[#FA4D4D]"
-        }`}
-      >
-        მინიმუმ 2 სიმბოლო
-      </p>
-      <p
-        className={`text-xs font-light ${
-          (!validation && !maxSymbols) ||
-          (!validation && inputValue.length === 0)
-            ? "text-[#6C757D]"
-            : maxSymbols || !validation
-            ? "text-[#08A508]"
-            : "text-[#FA4D4D]"
-        }`}
-      >
-        მაქსიმუმ 255 სიმბოლო
-      </p>
-      <p
-        className={`text-xs font-light ${
-          (!validation && !onlyLetters) ||
-          (!validation && inputValue.length === 0)
-            ? "text-[#6C757D]"
-            : onlyLetters || !validation
-            ? "text-[#08A508]"
-            : "text-[#FA4D4D]"
-        }`}
-      >
-        მარტო ლათინური და ქართული ასოები
-      </p>
+      <div className="flex flex-row items-center gap-0.5">
+        <Tick
+          color={
+            (!validation && !minSymbols) ||
+            (!validation && inputValue.length === 0)
+              ? "#6C757D"
+              : minSymbols || !validation
+              ? "#08A508"
+              : "#FA4D4D"
+          }
+        />
+        <p
+          className={`text-xs font-light ${
+            (!validation && !minSymbols) ||
+            (!validation && inputValue.length === 0)
+              ? "text-[#6C757D]"
+              : minSymbols || !validation
+              ? "text-[#08A508]"
+              : "text-[#FA4D4D]"
+          }`}
+        >
+          მინიმუმ 2 სიმბოლო
+        </p>
+      </div>
+      <div className="flex flex-row items-center gap-0.5">
+        <Tick
+          color={
+            (!validation && !maxSymbols) ||
+            (!validation && inputValue.length === 0)
+              ? "#6C757D"
+              : maxSymbols || !validation
+              ? "#08A508"
+              : "#FA4D4D"
+          }
+        />
+        <p
+          className={`text-xs font-light ${
+            (!validation && !maxSymbols) ||
+            (!validation && inputValue.length === 0)
+              ? "text-[#6C757D]"
+              : maxSymbols || !validation
+              ? "text-[#08A508]"
+              : "text-[#FA4D4D]"
+          }`}
+        >
+          მაქსიმუმ 255 სიმბოლო
+        </p>
+      </div>
+      <div className="flex flex-row items-center gap-0.5">
+        <Tick
+          color={
+            (!validation && !onlyLetters) ||
+            (!validation && inputValue.length === 0)
+              ? "#6C757D"
+              : onlyLetters || !validation
+              ? "#08A508"
+              : "#FA4D4D"
+          }
+        />
+        <p
+          className={`text-xs font-light ${
+            (!validation && !onlyLetters) ||
+            (!validation && inputValue.length === 0)
+              ? "text-[#6C757D]"
+              : onlyLetters || !validation
+              ? "text-[#08A508]"
+              : "text-[#FA4D4D]"
+          }`}
+        >
+          მარტო ლათინური და ქართული ასოები
+        </p>
+      </div>
     </div>
   );
 }

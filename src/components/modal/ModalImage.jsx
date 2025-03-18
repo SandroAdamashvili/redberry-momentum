@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useState } from "react";
 import ImgUpload from "../../assets/img-upload.svg";
 import RemoveIcon from "../../assets/remove-icon.svg";
 

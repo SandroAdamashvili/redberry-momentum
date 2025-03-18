@@ -19,7 +19,7 @@ export default function TaskPage() {
   const priorities = ["#08A508", "#FFBE0B", "#FA4D4D"];
   const { addComment } = useAddComment(id);
   const [comment, setComment] = useState("");
-  const [reply, setReply] = useState();
+  const [reply, setReply] = useState("");
   const [commentsData, setCommentsData] = useGetComments(id);
 
   async function createComment(obj) {

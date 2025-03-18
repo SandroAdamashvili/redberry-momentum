@@ -50,7 +50,10 @@ export default function TaskCard({
             <div
               key={task.id}
               className={`w-full flex flex-col gap-[28px] border ${color} rounded-[15px] p-[20px] hover:cursor-pointer`}
-              onClick={() => navigate(`/task/${task.id}`)}
+              onClick={() => {
+                navigate(`/task/${task.id}`);
+                localStorage.clear();
+              }}
             >
               <div className="flex flex-row justify-between items-center">
                 <div className="flex flex-row gap-[10px] text-[12px] items-center">
