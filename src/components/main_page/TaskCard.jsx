@@ -7,10 +7,10 @@ export default function TaskCard({
   depFilter,
   priorityFilter,
   employeeFilter,
-  depColor,
 }) {
   const navigate = useNavigate();
   const priorities = ["#08A508", "#FFBE0B", "#FA4D4D"];
+  const depColors = ["#FFD86D", "#FD9A6A", "#FF66A8", "#89B6FF"];
   const deps = [
     "ადმინისტრაცია",
     "ადამიანური რეს.",
@@ -69,7 +69,10 @@ export default function TaskCard({
                   </div>
                   <div
                     className="px-[9px] py-[5px] rounded-[15px] text-white"
-                    style={{ backgroundColor: depColor }}
+                    style={{
+                      backgroundColor:
+                        depColors[Math.floor(Math.random() * depColors.length)],
+                    }}
                   >
                     {deps[task.department.id - 1]}
                   </div>
@@ -85,7 +88,7 @@ export default function TaskCard({
               <div className="text-left flex flex-col gap-3">
                 <p className="text-[15px] font-medium">{task.name}</p>
                 <p className="text-[14px] font-normal">
-                  {task.description.length > 100
+                  {task.description && task.description.length > 100
                     ? task.description.slice(0, 100) + "..."
                     : task.description}
                 </p>

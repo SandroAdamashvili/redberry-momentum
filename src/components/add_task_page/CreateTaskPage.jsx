@@ -100,24 +100,18 @@ export default function CreateTaskPage() {
       return;
     }
 
-    console.log(taskObject);
-
-    try {
-      const response = await createTask(taskInfo);
-      console.log("Task created successfully: ", response);
-      setTaskInfo({
-        name: "",
-        description: "",
-        due_date: "",
-        status_id: "",
-        employee_id: "",
-        priority_id: "",
-        department_id: "",
-      });
-      navigate("/");
-    } catch (error) {
-      console.error("Failed to create task: ", error);
-    }
+    const response = await createTask(taskInfo);
+    console.log("Task created successfully: ", response);
+    setTaskInfo({
+      name: "",
+      description: "",
+      due_date: "",
+      status_id: "",
+      employee_id: "",
+      priority_id: "",
+      department_id: "",
+    });
+    navigate("/");
   }
 
   return (

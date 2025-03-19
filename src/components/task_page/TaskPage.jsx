@@ -23,29 +23,25 @@ export default function TaskPage() {
   const [commentsData, setCommentsData] = useGetComments(id);
 
   async function createComment(obj) {
-    try {
-      const newComment = await addComment(obj);
-      console.log(newComment);
-      setComment("");
-      setReply("");
+    const newComment = await addComment(obj);
+    console.log(newComment);
+    setComment("");
+    setReply("");
 
-      setCommentsData((prevValues) => {
-        if (obj.parent_id) {
-          return prevValues.map((comment) =>
-            comment.id === obj.parent_id
-              ? {
-                  ...comment,
-                  sub_comments: [...(comment.sub_comments || []), newComment],
-                }
-              : comment
-          );
-        } else {
-          return [...prevValues, newComment];
-        }
-      });
-    } catch (error) {
-      console.error("error: ", error);
-    }
+    setCommentsData((prevValues) => {
+      if (obj.parent_id) {
+        return prevValues.map((comment) =>
+          comment.id === obj.parent_id
+            ? {
+                ...comment,
+                sub_comments: [...(comment.sub_comments || []), newComment],
+              }
+            : comment
+        );
+      } else {
+        return [...prevValues, newComment];
+      }
+    });
   }
 
   function formatDate(dateStr) {

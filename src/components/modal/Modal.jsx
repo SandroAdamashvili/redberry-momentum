@@ -105,24 +105,15 @@ export default function Modal({
     const fd = new FormData();
     for (const key in modalInfo) {
       fd.append(key.toString(), modalInfo[key]);
-      // console.log(key);
     }
-    // console.log(fd.get("avatar"));
 
-    try {
-      await createEmployee(fd);
-      if (updateRequired) {
-        const response = await fetchData();
-        updateEmployees(response);
-      }
-      handleModalClose();
-    } catch (error) {
-      console.error("Failed to create employee: ", error);
+    await createEmployee(fd);
+    if (updateRequired) {
+      const response = await fetchData();
+      updateEmployees(response);
     }
+    handleModalClose();
   }
-
-  // console.log(modalInfo);
-  // console.log(modalError);
 
   return (
     <dialog
