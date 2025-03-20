@@ -39,7 +39,7 @@ export default function TaskPage() {
             : comment
         );
       } else {
-        return [...prevValues, newComment];
+        return [newComment, ...prevValues];
       }
     });
   }

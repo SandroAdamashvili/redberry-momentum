@@ -61,24 +61,27 @@ export default function Comments({
               />
             )}
             <ol>
-              {comment?.sub_comments?.map((sub) => (
-                <li
-                  key={sub.id}
-                  className="flex flex-row items-start gap-[12px] mt-[20px] ml-[50px]"
-                >
-                  <img
-                    src={sub.author_avatar}
-                    alt="sub author avatar"
-                    className="w-[38px] h-[38px] rounded-[40px]"
-                  />
-                  <div className="flex flex-col gap-[8px]">
-                    <p className="text-[18px] font-medium">
-                      {sub.author_nickname}
-                    </p>
-                    <p className="text-base font-light">{sub.text}</p>
-                  </div>
-                </li>
-              ))}
+              {comment?.sub_comments
+                ?.slice()
+                .reverse()
+                .map((sub) => (
+                  <li
+                    key={sub.id}
+                    className="flex flex-row items-start gap-[12px] mt-[20px] ml-[50px]"
+                  >
+                    <img
+                      src={sub.author_avatar}
+                      alt="sub author avatar"
+                      className="w-[38px] h-[38px] rounded-[40px]"
+                    />
+                    <div className="flex flex-col gap-[8px]">
+                      <p className="text-[18px] font-medium">
+                        {sub.author_nickname}
+                      </p>
+                      <p className="text-base font-light">{sub.text}</p>
+                    </div>
+                  </li>
+                ))}
             </ol>
           </li>
         ))}

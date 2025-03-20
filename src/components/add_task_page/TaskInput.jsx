@@ -26,9 +26,9 @@ export default function TaskInput({
 
     const isMinValid =
       type === "text"
-        ? value.length >= 3
-        : value.length >= 4 || value.length === 0;
-    const isMaxValid = value.length <= 255;
+        ? value.trim().length >= 3
+        : value.trim().length >= 4 || value.length === 0;
+    const isMaxValid = value.trim().length <= 255;
 
     setMinSymbols(isMinValid);
     setMaxSymbols(isMaxValid);
