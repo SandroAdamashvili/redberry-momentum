@@ -23,68 +23,65 @@ export default function Comments({
         </span>
       </div>
       <ol className="flex flex-col gap-[40px]">
-        {data
-          ?.slice()
-          .reverse()
-          .map((comment) => (
-            <li key={comment.id}>
-              <div className="flex flex-row items-start gap-[12px]">
-                <img
-                  src={comment.author_avatar}
-                  alt="author avatar"
-                  className="w-[38px] h-[38px] rounded-[40px]"
-                />
-                <div className="flex flex-col gap-[8px]">
-                  <p className="text-[18px] font-medium">
-                    {comment.author_nickname}
+        {data?.map((comment) => (
+          <li key={comment.id}>
+            <div className="flex flex-row items-start gap-[12px]">
+              <img
+                src={comment.author_avatar}
+                alt="author avatar"
+                className="w-[38px] h-[38px] rounded-[40px]"
+              />
+              <div className="flex flex-col gap-[8px]">
+                <p className="text-[18px] font-medium">
+                  {comment.author_nickname}
+                </p>
+                <p className="text-base font-light">{comment.text}</p>
+                <div
+                  className="flex flex-row gap-1.5 hover:cursor-pointer"
+                  onClick={() => {
+                    setReplyOpen({ [comment.id]: !replyOpen[comment.id] });
+                    setComment("");
+                  }}
+                >
+                  <img src={Reply} alt="reply icon" />
+                  <p className="text-base text-[#8338EC] font-light">
+                    {replyOpen[comment.id] ? "გაუქმება" : "უპასუხე"}
                   </p>
-                  <p className="text-base font-light">{comment.text}</p>
-                  <div
-                    className="flex flex-row gap-1.5 hover:cursor-pointer"
-                    onClick={() => {
-                      setReplyOpen({ [comment.id]: !replyOpen[comment.id] });
-                      setComment("");
-                    }}
-                  >
-                    <img src={Reply} alt="reply icon" />
-                    <p className="text-base text-[#8338EC] font-light">
-                      {replyOpen[comment.id] ? "გაუქმება" : "უპასუხე"}
-                    </p>
-                  </div>
                 </div>
               </div>
-              {replyOpen[comment.id] && (
-                <CommentTextField
-                  comment={commentText}
-                  setComment={setComment}
-                  createComment={createComment}
-                  parent_id={comment.id}
-                  setReplyOpen={setReplyOpen}
-                  replyOpen={replyOpen}
-                />
-              )}
-              <ol>
-                {comment?.sub_comments?.map((sub) => (
-                  <li
-                    key={sub.id}
-                    className="flex flex-row items-start gap-[12px] mt-[20px] ml-[50px]"
-                  >
-                    <img
-                      src={sub.author_avatar}
-                      alt="sub author avatar"
-                      className="w-[38px] h-[38px] rounded-[40px]"
-                    />
-                    <div className="flex flex-col gap-[8px]">
-                      <p className="text-[18px] font-medium">
-                        {sub.author_nickname}
-                      </p>
-                      <p className="text-base font-light">{sub.text}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </li>
-          ))}
+            </div>
+            {replyOpen[comment.id] && (
+              <CommentTextField
+                comment={commentText}
+                setComment={setComment}
+                createComment={createComment}
+                parent_id={comment.id}
+                setReplyOpen={setReplyOpen}
+                replyOpen={replyOpen}
+              />
+            )}
+            <ol>
+              {comment?.sub_comments?.map((sub) => (
+                <li
+                  key={sub.id}
+                  className="flex flex-row items-start gap-[12px] mt-[20px] ml-[50px]"
+                >
+                  <img
+                    src={sub.author_avatar}
+                    alt="sub author avatar"
+                    className="w-[38px] h-[38px] rounded-[40px]"
+                  />
+                  <div className="flex flex-col gap-[8px]">
+                    <p className="text-[18px] font-medium">
+                      {sub.author_nickname}
+                    </p>
+                    <p className="text-base font-light">{sub.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </li>
+        ))}
       </ol>
     </div>
   );

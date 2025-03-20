@@ -65,7 +65,7 @@ export default function CreateTaskPage() {
   }
 
   function updateEmployees(newData) {
-    setData(newData);
+    setData((prevValues) => [...prevValues, newData]);
   }
 
   async function handleCreateTask() {

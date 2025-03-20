@@ -10,7 +10,7 @@ export default function useAddComment(taskId) {
                     headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
-                    Authorization: "Bearer 9e766a7c-d553-4055-8572-c282604a14fd"
+                    Authorization: "Bearer 9e79c18e-3a48-492c-86a4-6155648b7642"
                     }
                 }
             )

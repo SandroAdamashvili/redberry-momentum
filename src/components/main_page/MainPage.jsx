@@ -41,7 +41,7 @@ export default function MainPage() {
   );
 
   function updateEmployees(newData) {
-    setData(newData);
+    setData((prevValues) => [...prevValues, newData]);
   }
 
   function handleFilterBox(name) {

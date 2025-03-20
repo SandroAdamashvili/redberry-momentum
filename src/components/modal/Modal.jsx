@@ -28,7 +28,7 @@ export default function Modal({
   });
   const [imageSrc, setImageSrc] = useState(null);
   const { createEmployee } = useCreateEmployee();
-  const { fetchData } = useGetEmployees();
+  // const { fetchData } = useGetEmployees();
   const imageRef = useRef();
 
   useEffect(() => {
@@ -70,7 +70,6 @@ export default function Modal({
   function handleImgChange(event) {
     const file = event.target.files[0];
     if (file && file.size < 600000 && file.type.startsWith("image")) {
-      console.log(file);
       handleModalChange("avatar", file);
       const imageUrl = URL.createObjectURL(file);
       setImageSrc(imageUrl);
@@ -107,9 +106,8 @@ export default function Modal({
       fd.append(key.toString(), modalInfo[key]);
     }
 
-    await createEmployee(fd);
+    const response = await createEmployee(fd);
     if (updateRequired) {
-      const response = await fetchData();
       updateEmployees(response);
     }
     handleModalClose();

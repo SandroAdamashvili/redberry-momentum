@@ -4,28 +4,24 @@ import { useEffect, useState } from "react";
 const options = {
     method: 'GET',
     url: 'https://momentum.redberryinternship.ge/api/employees',
-    headers: {Accept: 'application/json', Authorization: "Bearer 9e766a7c-d553-4055-8572-c282604a14fd"}
+    headers: {Accept: 'application/json', Authorization: "Bearer 9e79c18e-3a48-492c-86a4-6155648b7642"}
   };
 
 export default function useGetEmployees() {
     const [data, setData] = useState([])
 
-    async function fetchData() {
-        try {
-            const response = await axios.request(options)
-            return response.data
-        } catch (error) {
-            console.error("Error fetching data: ", error)
-        }
-    }
-
     useEffect(() => {
-        async function fetchEmployees() {
-            const response = await fetchData();
-            setData(response)
+        async function fetchData() {
+            try {
+                const response = await axios.request(options)
+                setData(response.data)
+            } catch (error) {
+                console.error("Error fetching data: ", error)
+            }
         }
-        fetchEmployees()
+
+        fetchData()
     }, [])
 
-    return {data, setData, fetchData}
+    return {data, setData}
 }
