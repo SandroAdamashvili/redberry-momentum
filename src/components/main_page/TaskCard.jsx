@@ -58,7 +58,7 @@ export default function TaskCard({
               <div className="flex flex-row justify-between items-center">
                 <div className="flex flex-row gap-[10px] text-[12px] items-center">
                   <div
-                    className="flex flex-row items-center gap-1 text-xs p-1 border-[0.5px] rounded-[4px]"
+                    className="flex flex-row w-[86px] items-center gap-1 text-xs font-medium p-1 border-[0.5px] rounded-[4px]"
                     style={{
                       color: priorities[task.priority.id - 1],
                       borderColor: priorities[task.priority.id - 1],

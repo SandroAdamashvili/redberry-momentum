@@ -163,9 +163,9 @@ export default function MainPage() {
           </li>
         )}
       </ol>
-      <div className="grid grid-cols-4 gap-[52px] text-center">
+      <div className="grid grid-cols-4 gap-[52px] text-center mb-10">
         <div className="flex flex-col gap-[30px]">
-          <h3 className="py-[15px] text-white bg-[#F7BC30] rounded-[10px]">
+          <h3 className="py-[15px] text-white bg-[#F7BC30] font-medium text-xl rounded-[10px]">
             დასაწყები
           </h3>
           <TaskCard
@@ -177,7 +177,7 @@ export default function MainPage() {
           />
         </div>
         <div className="flex flex-col gap-[30px]">
-          <h3 className="py-[15px] text-white bg-[#FB5607] rounded-[10px]">
+          <h3 className="py-[15px] text-white bg-[#FB5607] font-medium text-xl rounded-[10px]">
             პროგრესში
           </h3>
           <TaskCard
@@ -189,7 +189,7 @@ export default function MainPage() {
           />
         </div>
         <div className="flex flex-col gap-[30px]">
-          <h3 className="py-[15px] text-white bg-[#FF006E] rounded-[10px]">
+          <h3 className="py-[15px] text-white bg-[#FF006E] font-medium text-xl rounded-[10px]">
             მზად ტესტირებისთვის
           </h3>
           <TaskCard
@@ -201,7 +201,7 @@ export default function MainPage() {
           />
         </div>
         <div className="flex flex-col gap-[30px]">
-          <h3 className="py-[15px] text-white bg-[#3A86FF] rounded-[10px]">
+          <h3 className="py-[15px] text-white bg-[#3A86FF] font-medium text-xl rounded-[10px]">
             დასრულებული
           </h3>
           <TaskCard

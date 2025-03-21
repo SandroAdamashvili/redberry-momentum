@@ -13,7 +13,7 @@ export default function Comments({
   return (
     <div className="flex flex-col gap-[40px] mt-[66px]">
       <div className="flex flex-row items-center gap-[7px]">
-        <h3>კომენტარები</h3>
+        <h3 className="text-xl font-medium">კომენტარები</h3>
         <span className="px-[10px] py-[2.5px] flex items-center justify-center text-white text-sm font-medium rounded-[30px] bg-[#8338EC]">
           {data.reduce(
             (accumulator, currentValue) =>
@@ -35,7 +35,7 @@ export default function Comments({
                 <p className="text-[18px] font-medium">
                   {comment.author_nickname}
                 </p>
-                <p className="text-base font-light">{comment.text}</p>
+                <p className="text-base font-normal">{comment.text}</p>
                 <div
                   className="flex flex-row gap-1.5 hover:cursor-pointer"
                   onClick={() => {
@@ -78,7 +78,7 @@ export default function Comments({
                       <p className="text-[18px] font-medium">
                         {sub.author_nickname}
                       </p>
-                      <p className="text-base font-light">{sub.text}</p>
+                      <p className="text-base font-normal">{sub.text}</p>
                     </div>
                   </li>
                 ))}
